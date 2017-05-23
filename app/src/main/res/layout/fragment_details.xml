@@ -1,0 +1,341 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:grid="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.example.scottie.winedb.DetailsFragment">
+<android.support.v7.widget.GridLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="@dimen/activity_horizontal_margin"
+             android:paddingRight="@dimen/activity_horizontal_margin"
+             android:paddingTop="@dimen/activity_vertical_margin"
+             android:paddingBottom="@dimen/activity_vertical_margin"
+             grid:columnCount="2"
+             android:id="@+id/overall_layout">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wine_name_label"
+        android:id="@+id/wineNameLabel"
+        grid:layout_column="0"
+        grid:layout_row="0"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wineNameField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="1"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vineyard_label"
+        android:id="@+id/vineyardLabel"
+        grid:layout_column="0"
+        grid:layout_row="2"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vineyardField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="3"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wine_variety_label"
+        android:id="@+id/varietyLabel"
+        grid:layout_column="0"
+        grid:layout_row="4"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/varietyField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="5"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/region_label"
+        android:id="@+id/regionLabel"
+        grid:layout_column="0"
+        grid:layout_row="6"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/regionField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="7"
+        grid:layout_columnSpan="2"/>
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        grid:layout_column="0"
+        grid:layout_columnSpan="2"
+        grid:layout_row="8"
+        android:id="@+id/GridLayout01">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vintage_label"
+            android:id="@+id/vintageLabel"
+            grid:layout_column="0"
+            grid:layout_row="0"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_columnWeight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vintageField"
+            android:textSize="20sp"
+            grid:layout_column="0"
+            grid:layout_row="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_columnWeight="1"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:isIndicator="true"
+            android:stepSize="0.5"
+            android:numStars="5"
+            grid:layout_column="1"
+            grid:layout_row="0"
+            grid:layout_gravity="right"
+            grid:layout_rowSpan="2"
+            grid:layout_columnWeight="1"/>
+    </android.support.v7.widget.GridLayout>
+
+    <TextView
+        grid:layout_column="0"
+        grid:layout_row="9"
+        grid:layout_columnSpan="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bottle Image"
+        android:id="@+id/bottleImageLabel"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottleImageView"
+        grid:layout_row="10"
+        grid:layout_column="0"
+        grid:layout_columnSpan="2"
+        grid:layout_gravity="left"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Cellar Box No."
+        android:id="@+id/cellarBoxNoLabel"
+        grid:layout_column="0"
+        grid:layout_row="11"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        android:width="0dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cellarBoxNoField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="12"
+        grid:layout_columnWeight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No. of Bottles"
+        android:id="@+id/noBottlesLabel"
+        grid:layout_column="1"
+        grid:layout_row="11"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        android:width="0dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noBottlesField"
+        android:textSize="20sp"
+        grid:layout_column="1"
+        grid:layout_row="12"
+        grid:layout_columnWeight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tasted"
+        android:id="@+id/tastedLabel"
+        grid:layout_row="13"
+        grid:layout_column="0"
+        android:width="0dp"
+        grid:layout_gravity="fill_horizontal"
+        grid:layout_columnWeight="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tastedField"
+        android:textSize="20sp"
+        grid:layout_column="0"
+        grid:layout_row="14"
+        grid:layout_gravity="fill_horizontal"
+        grid:layout_columnWeight="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year_bought_label"
+        android:id="@+id/yearBoughtLabel"
+        grid:layout_row="13"
+        grid:layout_column="1"
+        android:width="0dp"
+        grid:layout_gravity="fill_horizontal"
+        grid:layout_columnWeight="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/yearBoughtField"
+        android:textSize="20sp"
+        grid:layout_column="1"
+        grid:layout_row="14"
+        grid:layout_gravity="fill_horizontal"
+        grid:layout_columnWeight="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drinking_range_from_label"
+        android:id="@+id/drinkFromLabel"
+        android:width="0dp"
+        grid:layout_row="15"
+        grid:layout_column="0"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drinkFromField"
+        android:textSize="20sp"
+        grid:layout_row="16"
+        grid:layout_column="0"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drinking_range_to_label"
+        android:id="@+id/drinkToLabel"
+        android:width="0dp"
+        grid:layout_row="15"
+        grid:layout_column="1"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drinkToField"
+        android:textSize="20sp"
+        grid:layout_row="16"
+        grid:layout_column="1"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_paid_label"
+        android:id="@+id/pricePaidLabel"
+        android:width="0dp"
+        grid:layout_row="17"
+        grid:layout_column="0"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pricePaidField"
+        android:textSize="20sp"
+        grid:layout_row="18"
+        grid:layout_column="0"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/percent_alcohol_label"
+        android:id="@+id/percentAlcoholLabel"
+        android:width="0dp"
+        grid:layout_row="17"
+        grid:layout_column="1"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/percentAlcoholField"
+        android:textSize="20sp"
+        grid:layout_row="18"
+        grid:layout_column="1"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notes_label"
+        android:id="@+id/notesLabel"
+        grid:layout_row="19"
+        grid:layout_column="0"
+        grid:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notesField"
+        android:textSize="20sp"
+        grid:layout_row="120"
+        grid:layout_column="0"
+        grid:layout_columnSpan="2"/>
+
+</android.support.v7.widget.GridLayout>
+</ScrollView>

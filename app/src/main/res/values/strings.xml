@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">WineDB</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_add">Add a New Wine</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="search_label">Search Database</string>
+    <string name="action_next_screen">Next</string>
+
+    <string name="delete_wine">Deleting Wine: Are you sure?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="optional_hint">optional</string>
+    <string name="finish_label">Finish</string>
+    <string name="wine_name_label">Wine Name</string>
+    <string name="wine_variety_label">Wine Variety</string>
+    <string name="vineyard_label">Vineyard</string>
+    <string name="region_label">Region</string>
+    <string name="vintage_label">Vintage</string>
+    <string name="dollar_label">$</string>
+    <string name="drinking_range_from_label">Drink Range: From Year</string>
+    <string name="drinking_range_to_label">To Year</string>
+    <string name="year_bought_label">Year Bought</string>
+    <string name="percent_alcohol_label">Percent Alcohol</string>
+    <string name="price_paid_label">Price Paid</string>
+    <string name="notes_label">Notes</string>
+
+</resources>

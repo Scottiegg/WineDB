@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             android:background="@android:color/background_light">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wine Name"
+            android:id="@+id/listWineName"
+            android:textSize="20sp"
+            android:layout_weight="0.65"
+            android:width="0dp"
+            android:maxLines="3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Year"
+            android:id="@+id/listVintage"
+            android:textSize="20sp"
+            android:layout_weight="0.35"
+            android:width="0dp"
+            android:maxLines="3"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vineyard"
+            android:id="@+id/listVineyard"
+            android:textSize="20sp"
+            android:width="0dp"
+            android:layout_weight="0.6"
+            android:maxLines="3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Variety"
+            android:id="@+id/listVariety"
+            android:textSize="20sp"
+            android:width="0dp"
+            android:layout_weight="0.4"
+            android:maxLines="3"/>
+    </TableRow>
+
+</TableLayout>
