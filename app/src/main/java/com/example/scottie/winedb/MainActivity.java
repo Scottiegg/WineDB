@@ -1,7 +1,7 @@
 package com.example.scottie.winedb;
 
 import android.content.Intent;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Fragment fragment = new MainFragment();
-        getFragmentManager().beginTransaction().add(R.id.main_layout, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragment).commit();
     }
 
     @Override
@@ -34,18 +34,14 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        Intent intent = new Intent();
-
         switch (item.getItemId())
         {
+            case R.id.action_settings:
+                return true;
             case R.id.action_add:
+                Intent intent = new Intent();
                 intent.setClass(getApplicationContext(),
                         com.example.scottie.winedb.AddActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_settings:
-                intent.setClass(getApplicationContext(),
-                        com.example.scottie.winedb.SettingsActivity.class);
                 startActivity(intent);
                 return true;
         }

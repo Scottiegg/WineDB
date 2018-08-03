@@ -3,17 +3,24 @@ package com.example.scottie.winedb;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 
+import java.io.Serializable;
 
 public class AddActivity extends AppCompatActivity
         implements AddFragmentScreen1.OnNextClickListenerScreen1,
-        AddFragmentScreen2.OnNextClickListenerScreen2,
-        AddFragmentScreen3.OnNextClickListenerScreen3
+                   AddFragmentScreen2.OnNextClickListenerScreen2,
+                   AddFragmentScreen3.OnNextClickListenerScreen3
 {
     Bundle screen1Data = null;
     Bundle screen2Data = null;
@@ -146,5 +153,30 @@ public class AddActivity extends AppCompatActivity
 
         Fragment fragment = new AddFragmentScreen1();
         getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragment).commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings)
+        {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

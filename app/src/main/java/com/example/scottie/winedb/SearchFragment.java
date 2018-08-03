@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +55,7 @@ public class SearchFragment extends ListFragment
     {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        getAllWines(); //Gets wines initially, optional if you don't want this feature
+        getAllWines();
         getViewsById(view);
         initialiseUI();
 
@@ -94,9 +95,8 @@ public class SearchFragment extends ListFragment
             }
 
             @Override
-            public boolean onQueryTextChange(String query)
+            public boolean onQueryTextChange(String newText)
             {
-                querySubmit(query, inCellarCheckBox.isChecked(), tastedCheckBox.isChecked());
                 return false;
             }
         });
@@ -126,7 +126,7 @@ public class SearchFragment extends ListFragment
         Bundle bundle = new Bundle();
         bundle.putLong("ID", id);
         newFragment.setArguments(bundle);
-        getActivity().getFragmentManager().beginTransaction()
+        getActivity().getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.main_layout, newFragment)
                 .commit();
@@ -158,12 +158,20 @@ public class SearchFragment extends ListFragment
 
         String selectAllQuery = "SELECT _ID, " +
                 DBHelper.WINE_NAME + ", " + DBHelper.VINTAGE + ", " +
-                DBHelper.VINEYARD + ", " + DBHelper.VARIETY + ", " +
-                DBHelper.DRINK_FROM + ", " + DBHelper.DRINK_TO +
+                DBHelper.VINEYARD + ", " + DBHelper.VARIETY +
                 " FROM " + DBHelper.WINE_TBL + " ORDER BY " + DBHelper.VINEYARD;
 
         cursor = db.getReadableDatabase().rawQuery(selectAllQuery, null);
-        setList(cursor);
+
+        String[] from = new String[]
+                { DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
+        int[] to = new int[]
+                { R.id.listWineName, R.id.listVintage, R.id.listVineyard, R.id.listVariety };
+
+        ListAdapter adapter = new SimpleCursorAdapter(activityContext,
+                R.layout.search_listrow, cursor, from, to, 0);
+
+        setListAdapter(adapter);
     }
 
     private void querySubmit(String query, Boolean inCellarOnly, Boolean tastedOnly)
@@ -174,8 +182,7 @@ public class SearchFragment extends ListFragment
         if (cursor != null) cursor.close(); // close old cursor
 
         String[] fieldsToGetFrom = new String[]
-                { DBHelper._ID,DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD,
-                        DBHelper.VARIETY, DBHelper.DRINK_FROM, DBHelper.DRINK_TO };
+                { DBHelper._ID, DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
 
         String selection = "(" + DBHelper.WINE_NAME + " LIKE" + "'%" + query + "%' OR " +
                                  DBHelper.VINTAGE + " LIKE" + "'%" + query + "%' OR " +
@@ -199,11 +206,6 @@ public class SearchFragment extends ListFragment
         cursor = db.getReadableDatabase().query(DBHelper.WINE_TBL, fieldsToGetFrom, selection,
                 null, null, null, DBHelper.VINEYARD, null);
 
-        setList(cursor);
-    }
-
-    private void setList(Cursor cursor)
-    {
         String[] from = new String[]
                 { DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
         int[] to = new int[]

@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -208,7 +207,6 @@ public class AddFragmentScreen3 extends Fragment
 
                 Bitmap tempImage = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), bitmapOptions);
                 bottleImage = resizeImage(tempImage);
-                Toast.makeText(activityContext, "Image Saved Successfully", Toast.LENGTH_LONG).show();
             }
             else if (requestCode == 2)
             {
@@ -223,7 +221,6 @@ public class AddFragmentScreen3 extends Fragment
 
                 Bitmap tempImage = BitmapFactory.decodeFile(picturePath);
                 bottleImage = resizeImage(tempImage);
-                Toast.makeText(activityContext, "Image Saved Successfully", Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -361,9 +360,7 @@ public class DetailsFragment extends Fragment
                 return true;
             case R.id.action_back:
                 Fragment newFragment = new SearchFragment();
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                //fragmentManager.popBackStack(); ** Used to remove details fragment from back stack.
-                fragmentManager.beginTransaction()
+                getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
                         .replace(R.id.main_layout, newFragment)
                         .commit();
@@ -371,7 +368,6 @@ public class DetailsFragment extends Fragment
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private void processDelete()
     {
@@ -381,7 +377,7 @@ public class DetailsFragment extends Fragment
         db.getWritableDatabase().delete(DBHelper.WINE_TBL, "_ID=?", args);
         Fragment newFragment = new SearchFragment();
 
-        getActivity().getFragmentManager().beginTransaction()
+        getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_layout, newFragment).commit();
     }
 }

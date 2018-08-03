@@ -1,7 +1,7 @@
 package com.example.scottie.winedb;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,7 @@ public class MainFragment extends Fragment
             public void onClick(View v)
             {
                 Fragment newFragment = new SearchFragment();
-                getActivity().getFragmentManager().beginTransaction()
+                getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
                         .replace(R.id.main_layout, newFragment)
                         .commit();
