@@ -26,8 +26,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class SearchFragment extends ListFragment
-{
+public class SearchFragment extends ListFragment {
     private static final int DELETE_ID = Menu.FIRST + 3;
 
     private Context activityContext;
@@ -40,19 +39,18 @@ public class SearchFragment extends ListFragment
     private DBHelper db = null;
     private Cursor cursor = null;
 
-    public SearchFragment() {}
+    public SearchFragment() {
+    }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         activityContext = activity.getBaseContext();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         getAllWines();
@@ -63,14 +61,12 @@ public class SearchFragment extends ListFragment
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         registerForContextMenu(getListView());
     }
 
-    private void getViewsById(View view)
-    {
+    private void getViewsById(View view) {
         TableLayout tableLayout = (TableLayout) view.findViewById(R.id.overall_layout);
         TableRow tableRow01 = (TableRow) tableLayout.findViewById(R.id.TableRow01);
         TableRow tableRow02 = (TableRow) tableLayout.findViewById(R.id.TableRow02);
@@ -82,21 +78,17 @@ public class SearchFragment extends ListFragment
         getAllWinesButton = (Button) tableRow03.findViewById(R.id.showAllButton);
     }
 
-    private void initialiseUI()
-    {
+    private void initialiseUI() {
         searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 querySubmit(query, inCellarCheckBox.isChecked(), tastedCheckBox.isChecked());
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 return false;
             }
         });
@@ -104,11 +96,9 @@ public class SearchFragment extends ListFragment
         inCellarCheckBox.setOnCheckedChangeListener(new CheckBoxChecker());
         tastedCheckBox.setOnCheckedChangeListener(new CheckBoxChecker());
 
-        getAllWinesButton.setOnClickListener(new View.OnClickListener()
-        {
+        getAllWinesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 inCellarCheckBox.setChecked(false);
                 tastedCheckBox.setChecked(false);
                 getAllWines();
@@ -117,8 +107,7 @@ public class SearchFragment extends ListFragment
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
+    public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         db.close();
         cursor.close();
@@ -132,26 +121,20 @@ public class SearchFragment extends ListFragment
                 .commit();
     }
 
-    class CheckBoxChecker implements CompoundButton.OnCheckedChangeListener
-    {
+    class CheckBoxChecker implements CompoundButton.OnCheckedChangeListener {
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-        {
-            if (buttonView == inCellarCheckBox)
-            {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (buttonView == inCellarCheckBox) {
                 querySubmit(searchView.getQuery().toString(),
                         isChecked, tastedCheckBox.isChecked());
-            }
-            else if (buttonView == tastedCheckBox)
-            {
+            } else if (buttonView == tastedCheckBox) {
                 querySubmit(searchView.getQuery().toString(),
                         inCellarCheckBox.isChecked(), isChecked);
             }
         }
     }
 
-    private void getAllWines()
-    {
+    private void getAllWines() {
         db = DBHelper.getInstance(activityContext);
 
         if (cursor != null) cursor.close(); // close old cursor
@@ -164,9 +147,9 @@ public class SearchFragment extends ListFragment
         cursor = db.getReadableDatabase().rawQuery(selectAllQuery, null);
 
         String[] from = new String[]
-                { DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
+                {DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY};
         int[] to = new int[]
-                { R.id.listWineName, R.id.listVintage, R.id.listVineyard, R.id.listVariety };
+                {R.id.listWineName, R.id.listVintage, R.id.listVineyard, R.id.listVariety};
 
         ListAdapter adapter = new SimpleCursorAdapter(activityContext,
                 R.layout.search_listrow, cursor, from, to, 0);
@@ -174,32 +157,27 @@ public class SearchFragment extends ListFragment
         setListAdapter(adapter);
     }
 
-    private void querySubmit(String query, Boolean inCellarOnly, Boolean tastedOnly)
-    {
+    private void querySubmit(String query, Boolean inCellarOnly, Boolean tastedOnly) {
         // true = 1, false = 0
         db = DBHelper.getInstance(activityContext);
 
         if (cursor != null) cursor.close(); // close old cursor
 
         String[] fieldsToGetFrom = new String[]
-                { DBHelper._ID, DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
+                {DBHelper._ID, DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY};
 
         String selection = "(" + DBHelper.WINE_NAME + " LIKE" + "'%" + query + "%' OR " +
-                                 DBHelper.VINTAGE + " LIKE" + "'%" + query + "%' OR " +
-                                 DBHelper.VINEYARD + " LIKE" + "'%" + query + "%' OR " +
-                                 DBHelper.VARIETY + " LIKE" + "'%" + query + "%' OR " +
-                                 DBHelper.REGION + " LIKE" + "'%" + query + "%')";
+                DBHelper.VINTAGE + " LIKE" + "'%" + query + "%' OR " +
+                DBHelper.VINEYARD + " LIKE" + "'%" + query + "%' OR " +
+                DBHelper.VARIETY + " LIKE" + "'%" + query + "%' OR " +
+                DBHelper.REGION + " LIKE" + "'%" + query + "%')";
 
-        if (inCellarOnly && tastedOnly)
-        {
+        if (inCellarOnly && tastedOnly) {
             selection += " AND (" + DBHelper.IN_CELLAR + " = 1 AND " + DBHelper.TASTED + " = 1)";
         }
-        if (inCellarOnly)
-        {
+        if (inCellarOnly) {
             selection += " AND " + DBHelper.IN_CELLAR + " = 1";
-        }
-        else if (tastedOnly)
-        {
+        } else if (tastedOnly) {
             selection += " AND " + DBHelper.TASTED + " = 1";
         }
 
@@ -207,9 +185,9 @@ public class SearchFragment extends ListFragment
                 null, null, null, DBHelper.VINEYARD, null);
 
         String[] from = new String[]
-                { DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY };
+                {DBHelper.WINE_NAME, DBHelper.VINTAGE, DBHelper.VINEYARD, DBHelper.VARIETY};
         int[] to = new int[]
-                { R.id.listWineName, R.id.listVintage, R.id.listVineyard, R.id.listVariety };
+                {R.id.listWineName, R.id.listVintage, R.id.listVineyard, R.id.listVariety};
 
         ListAdapter adapter = new SimpleCursorAdapter(activityContext,
                 R.layout.search_listrow, cursor, from, to, 0);
@@ -218,8 +196,7 @@ public class SearchFragment extends ListFragment
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
 
         if (cursor != null)
@@ -231,18 +208,15 @@ public class SearchFragment extends ListFragment
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo)
-    {
+                                    ContextMenu.ContextMenuInfo menuInfo) {
         // add(groupId, itemID, order, title)
         menu.add(Menu.NONE, DELETE_ID, Menu.NONE, "Delete")
                 .setAlphabeticShortcut('d');
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case DELETE_ID:
                 AdapterView.AdapterContextMenuInfo info =
                         (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -253,43 +227,35 @@ public class SearchFragment extends ListFragment
         return super.onOptionsItemSelected(item);
     }
 
-    private void delete(final long rowId)
-    {
-        if (rowId > 0)
-        {
+    private void delete(final long rowId) {
+        if (rowId > 0) {
             new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.delete_wine)
                     .setPositiveButton(R.string.ok,
-                            new DialogInterface.OnClickListener()
-                            {
+                            new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
-                                                    int whichButton)
-                                {
+                                                    int whichButton) {
                                     processDelete(rowId);
                                 }
                             })
                     .setNegativeButton(R.string.cancel,
-                            new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(DialogInterface dialog, int whichButton) {}
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
                             }).show();
         }
     }
 
-    private void processDelete(long rowId)
-    {
-        String[] args = { String.valueOf(rowId) };
+    private void processDelete(long rowId) {
+        String[] args = {String.valueOf(rowId)};
 
         db = DBHelper.getInstance(getActivity());
         db.getWritableDatabase().delete(DBHelper.WINE_TBL, "_ID=?", args);
 
         String query = searchView.getQuery().toString();
-        if (query.length() > 0)
-        {
+        if (query.length() > 0) {
             querySubmit(query, inCellarCheckBox.isChecked(), tastedCheckBox.isChecked());
-        }
-        else
-        {
+        } else {
             getAllWines();
         }
     }

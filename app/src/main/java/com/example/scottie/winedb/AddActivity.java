@@ -3,40 +3,62 @@ package com.example.scottie.winedb;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RatingBar;
 
-import java.io.Serializable;
-
+/**
+ * AddActivity
+ * <p>
+ * Used in in-app form (via AddFragmentScreen[1-3])
+ * to allow user to enter in a new wine into app.
+ * <p>
+ * Implements 3 interfaces, for each fragment to store data from each screen in the form.
+ *
+ * @author Scott Garton
+ * @version 1.0
+ */
 public class AddActivity extends AppCompatActivity
         implements AddFragmentScreen1.OnNextClickListenerScreen1,
-                   AddFragmentScreen2.OnNextClickListenerScreen2,
-                   AddFragmentScreen3.OnNextClickListenerScreen3
-{
+        AddFragmentScreen2.OnNextClickListenerScreen2,
+        AddFragmentScreen3.OnNextClickListenerScreen3 {
+    /**
+     * Stores each screen's information
+     */
     Bundle screen1Data = null;
     Bundle screen2Data = null;
     Bundle screen3Data = null;
 
-    public void onNextButtonClickScreen1(Bundle savedData)
-    {
-        screen1Data = savedData;
-
+    /**
+     * removeFocus
+     * <p>
+     * Removes focus from currently focused UI element
+     */
+    private void removeFocus() {
+        // remove focus from UI elements
         View view = this.getCurrentFocus();
-        if (view != null)
-        {
+        if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
 
+    /**
+     * onNextButtonCLickScreen1
+     * <p>
+     * Saves data from first screen, when user clicks next.
+     *
+     * @param savedData data produced from screen 1
+     */
+    public void onNextButtonClickScreen1(Bundle savedData) {
+        removeFocus();
+        screen1Data = savedData;
+
+        // Load new fragment for next screen
         Fragment newFragment = new AddFragmentScreen2();
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -44,17 +66,18 @@ public class AddActivity extends AppCompatActivity
                 .commit();
     }
 
-    public void onNextButtonClickScreen2(Bundle savedData)
-    {
+    /**
+     * onNextButtonCLickScreen2
+     * <p>
+     * Saves data from second screen, when user clicks next.
+     *
+     * @param savedData data produced from screen 2
+     */
+    public void onNextButtonClickScreen2(Bundle savedData) {
+        removeFocus();
         screen2Data = savedData;
 
-        View view = this.getCurrentFocus();
-        if (view != null)
-        {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-
+        // Load new fragment for next screen
         Fragment newFragment = new AddFragmentScreen3();
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -62,8 +85,15 @@ public class AddActivity extends AppCompatActivity
                 .commit();
     }
 
-    public void onNextButtonClickScreen3(Bundle savedData)
-    {
+    /**
+     * onNextButtonCLickScreen3
+     * <p>
+     * Saves data from last screen, when user clicks next.
+     * Collates data from all screens, then saves to SQLite database
+     *
+     * @param savedData data produced from screen 3
+     */
+    public void onNextButtonClickScreen3(Bundle savedData) {
         //save incoming data
         screen3Data = savedData;
 
@@ -71,22 +101,19 @@ public class AddActivity extends AppCompatActivity
         ContentValues cv = new ContentValues();
 
         // insert screen 1 content
-        if (screen1Data != null)
-        {
+        if (screen1Data != null) {
             cv.put(DBHelper.WINE_NAME, screen1Data.getString("WINE_NAME"));
             cv.put(DBHelper.VARIETY, screen1Data.getString("VARIETY"));
             cv.put(DBHelper.VINEYARD, screen1Data.getString("VINEYARD"));
             cv.put(DBHelper.VINTAGE, screen1Data.getInt("VINTAGE"));
 
-            if (screen1Data.containsKey("REGION"))
-            {
+            if (screen1Data.containsKey("REGION")) {
                 cv.put(DBHelper.REGION, screen1Data.getString("REGION"));
             }
         }
 
         // insert screen 2 content
-        if (screen2Data != null)
-        {
+        if (screen2Data != null) {
             int tasted = (screen2Data.getBoolean("TASTED")) ? 1 : 0;
             cv.put(DBHelper.TASTED, tasted);
 
@@ -94,16 +121,14 @@ public class AddActivity extends AppCompatActivity
             int inCellarInt = inCellarBool ? 1 : 0;
             cv.put(DBHelper.IN_CELLAR, inCellarInt);
 
-            if (inCellarBool)
-            {
+            if (inCellarBool) {
                 cv.put(DBHelper.NO_BOTTLES, screen2Data.getInt("NO_BOTTLES"));
                 cv.put(DBHelper.BOX_NO, screen2Data.getInt("BOX_NO"));
             }
         }
 
         // insert screen 3 content
-        if (screen3Data != null)
-        {
+        if (screen3Data != null) {
             //TODO:get bitmap
 
             if (screen3Data.containsKey("NOTES"))
@@ -115,8 +140,7 @@ public class AddActivity extends AppCompatActivity
             if (screen3Data.containsKey("PRICE_PAID"))
                 cv.put(DBHelper.PRICE_PAID, screen3Data.getString("PRICE_PAID"));
 
-            if (screen3Data.containsKey("IMAGE"))
-            {
+            if (screen3Data.containsKey("IMAGE")) {
                 byte[] imageBytes = (byte[]) screen3Data.getSerializable("IMAGE");
                 cv.put(DBHelper.IMAGE, imageBytes);
             }
@@ -145,9 +169,14 @@ public class AddActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * onCreate
+     * Loads in Add Fragment for Screen 1.
+     *
+     * @param savedInstanceState not used currently.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
@@ -156,24 +185,21 @@ public class AddActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_add, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
+        if (id == R.id.action_settings) {
             return true;
         }
 

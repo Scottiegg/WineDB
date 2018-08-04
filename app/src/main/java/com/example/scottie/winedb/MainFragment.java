@@ -8,24 +8,32 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 
-public class MainFragment extends Fragment
-{
-    public MainFragment() {}
+/**
+ * MainFragment
+ * <p>
+ * Fragment seen when app is first opened.
+ *
+ * @author Scott Garton
+ * @version 1.0
+ */
+public class MainFragment extends Fragment {
+    public MainFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         GridLayout gridLayout = (GridLayout) view.findViewById(R.id.overall_layout);
         ImageButton btn = (ImageButton) gridLayout.findViewById(R.id.imageButton);
 
-        btn.setOnClickListener(new View.OnClickListener()
-        {
+        /**
+         * replaces main fragment with search fragment when user click search
+         */
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Fragment newFragment = new SearchFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)

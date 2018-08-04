@@ -29,9 +29,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-
-public class AddFragmentScreen3 extends Fragment
-{
+/**
+ * AddFragmentScreen3
+ * <p>
+ * Used by parent activity (AddActivity)
+ * to allow user to enter in a new wine into app.
+ * <p>
+ * Has optional fields only
+ * <p>
+ * Provides interface for callback to parent activity
+ *
+ * @author Scott Garton
+ * @version 1.0
+ */
+public class AddFragmentScreen3 extends Fragment {
     private Context activityContext;
 
     private Button nextButton01;
@@ -52,43 +63,50 @@ public class AddFragmentScreen3 extends Fragment
 
     //TODO: store bitmap in field until finish clicked
 
-    public AddFragmentScreen3() {}
+    public AddFragmentScreen3() {
+    }
 
     OnNextClickListenerScreen3 activityCallback;
 
-    public interface OnNextClickListenerScreen3
-    {
+    /**
+     * OnNextClickListenerScreen3
+     * <p>
+     * Interface used to call-back to parent activity
+     */
+    public interface OnNextClickListenerScreen3 {
         void onNextButtonClickScreen3(Bundle savedData);
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         activityContext = activity.getBaseContext();
 
-        try
-        {
+        // attach listener
+        try {
             activityCallback = (OnNextClickListenerScreen3) activity;
-        }
-        catch (ClassCastException e)
-        {
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implement SearchClickListener");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_screen3, container, false);
         getViewsById(view);
         initialiseUI();
         return view;
     }
 
-    private void getViewsById(View view)
-    {
+    /**
+     * getViewsById
+     * <p>
+     * Method to assign Views for each UI component in Fragment
+     *
+     * @param view View after fragment inflate
+     */
+    private void getViewsById(View view) {
         TableLayout tableLayout = (TableLayout) view.findViewById(R.id.overall_layout);
         LinearLayout firstLayout = (LinearLayout) tableLayout.findViewById(R.id.LinearLayout01);
         TableRow tableRow01 = (TableRow) tableLayout.findViewById(R.id.TableRow01);
@@ -108,108 +126,123 @@ public class AddFragmentScreen3 extends Fragment
         percentAlcohol = (EditText) tableRow05.findViewById(R.id.percentAlcoholField);
     }
 
-    private void initialiseUI()
-    {
+    /**
+     * initialiseUI
+     * <p>
+     * Method used to set callback for buttons, as part of initializing the UI
+     */
+    private void initialiseUI() {
         nextButton01.setOnClickListener(new OnNextClickListener());
         nextButton02.setOnClickListener(new OnNextClickListener());
 
-        addImageButton.setOnClickListener(new View.OnClickListener()
-        {
+        addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 onAddImage();
             }
         });
     }
 
-    class OnNextClickListener implements View.OnClickListener
-    {
+    /**
+     * OnNextClickListener
+     * <p>
+     * Inner class used to facilitate logic for when callback to parent activity is activated
+     *
+     * @author Scott Garton
+     * @version 1.0
+     */
+    class OnNextClickListener implements View.OnClickListener {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
+            // Load up bundle with data
             Bundle bundle = new Bundle();
-            if (!(isEmpty(notes)))
+            if (!(Utils.isEmpty(notes)))
                 bundle.putString("NOTES", notes.getText().toString());
 
             bundle.putFloat("RATING", ratingBar.getRating());
 
-            if (!(isEmpty(pricePaid)))
+            if (!(Utils.isEmpty(pricePaid)))
                 bundle.putString("PRICE_PAID", pricePaid.getText().toString());
 
-            if (bottleImage != null)
-            {
+            // Put image of bottle
+            if (bottleImage != null) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bottleImage.compress(Bitmap.CompressFormat.PNG, 0, stream);
                 byte[] bytes = stream.toByteArray();
                 bundle.putSerializable("IMAGE", bytes);
             }
 
-            if (!(isEmpty(drinkFrom)))
+            if (!(Utils.isEmpty(drinkFrom)))
                 bundle.putString("DRINK_FROM", drinkFrom.getText().toString());
 
-            if (!(isEmpty(drinkTo)))
+            if (!(Utils.isEmpty(drinkTo)))
                 bundle.putString("DRINK_TO", drinkTo.getText().toString());
 
-            if (!(isEmpty(yearBought)))
+            if (!(Utils.isEmpty(yearBought)))
                 bundle.putString("YEAR_BOUGHT", yearBought.getText().toString());
 
-            if (!(isEmpty(percentAlcohol)))
+            if (!(Utils.isEmpty(percentAlcohol)))
                 bundle.putString("PERCENT_ALCOHOL", percentAlcohol.getText().toString());
 
+            // activate callback
             activityCallback.onNextButtonClickScreen3(bundle);
         }
     }
 
-    private void onAddImage()
-    {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+    /**
+     * onAddImage
+     * <p>
+     * Method used to get image from device camera or device gallery via intents
+     * (by starting a new activity).
+     * <p>
+     * Shows dialog to user.
+     */
+    private void onAddImage() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add Photo")
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int item)
-                    {
-                        if (options[item].equals("Take Photo"))
-                        {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Take Photo")) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                             outputFileUri = Uri.fromFile(f);
 
                             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                             startActivityForResult(intent, 1);
-                        }
-                        else if (options[item].equals("Choose from Gallery"))
-                        {
+                        } else if (options[item].equals("Choose from Gallery")) {
                             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intent, 2);
-                        }
-                        else if (options[item].equals("Cancel"))
-                        {
+                        } else if (options[item].equals("Cancel")) {
                             dialog.dismiss();
                         }
                     }
                 }).show();
     }
 
+    /**
+     * onActivityResult
+     * <p>
+     * Processes results from any outstanding intent requests (I.e. Activity results)
+     *
+     * @param requestCode provided in onAddImage when startActivityForResult() was called.
+     * @param resultCode  either RESULT_OK or RESULT_CANCELLED
+     * @param data        the stuff we care about (as an Intent, provided in extras)
+     */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK)
-        {
-            if (requestCode == 1)
-            {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
                 File imageFile = new File(outputFileUri.getPath());
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                 Bitmap tempImage = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), bitmapOptions);
                 bottleImage = resizeImage(tempImage);
-            }
-            else if (requestCode == 2)
-            {
+            } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
 
@@ -225,8 +258,15 @@ public class AddFragmentScreen3 extends Fragment
         }
     }
 
-    private Bitmap resizeImage(Bitmap inBitmap)
-    {
+    /**
+     * resizeImage
+     * <p>
+     * Method used to rescale image so that the device doesn't fill up with too much data!
+     *
+     * @param inBitmap original bitmap
+     * @return a resized bitmap
+     */
+    private Bitmap resizeImage(Bitmap inBitmap) {
         final int maxSize = 960;
         int outWidth;
         int outHeight;
@@ -234,13 +274,11 @@ public class AddFragmentScreen3 extends Fragment
         int inWidth = inBitmap.getWidth();
         int inHeight = inBitmap.getHeight();
 
-        if(inWidth > inHeight)
-        {
+        // make sure longest edge does not exceed 960px
+        if (inWidth > inHeight) {
             outWidth = maxSize;
             outHeight = (inHeight * maxSize) / inWidth;
-        }
-        else
-        {
+        } else {
             outHeight = maxSize;
             outWidth = (inWidth * maxSize) / inHeight;
         }
@@ -248,9 +286,5 @@ public class AddFragmentScreen3 extends Fragment
         return Bitmap.createScaledBitmap(inBitmap, outWidth, outHeight, false);
     }
 
-    private boolean isEmpty(EditText text)
-    {
-        String s = text.getText().toString().trim();
-        return s.matches("");
-    }
+
 }

@@ -18,8 +18,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class DetailsFragment extends Fragment
-{
+public class DetailsFragment extends Fragment {
     private TextView wineNameField;
     private TextView vineyardField;
     private TextView varietyField;
@@ -56,12 +55,12 @@ public class DetailsFragment extends Fragment
 
     private long id;
 
-    public DetailsFragment() {}
+    public DetailsFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
         Bundle bundle = getArguments();
@@ -74,14 +73,12 @@ public class DetailsFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
-    private void getViewById(View view)
-    {
+    private void getViewById(View view) {
         GridLayout overallLayout = (GridLayout) view.findViewById(R.id.overall_layout);
         GridLayout gridLayout01 = (GridLayout) overallLayout.findViewById(R.id.GridLayout01);
 
@@ -120,206 +117,156 @@ public class DetailsFragment extends Fragment
         notesLabel = (TextView) overallLayout.findViewById(R.id.notesLabel);
     }
 
-    private void initialiseUI()
-    {
+    private void initialiseUI() {
         DBHelper db = DBHelper.getInstance(getActivity());
-        String[] args = { String.valueOf(id) };
+        String[] args = {String.valueOf(id)};
         Cursor cursor = db.getReadableDatabase().query(DBHelper.WINE_TBL, null, "_id= ?", args, null, null, null);
 
-        if (cursor.moveToFirst())
-        {
+        if (cursor.moveToFirst()) {
             int columnIndex = cursor.getColumnIndex(DBHelper.WINE_NAME);
 
-            if (columnIndex != -1)
-            {
+            if (columnIndex != -1) {
                 wineNameField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 wineNameField.setVisibility(View.GONE);
                 wineNameLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.VINEYARD);
 
-            if (columnIndex != -1)
-            {
+            if (columnIndex != -1) {
                 vineyardField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 vineyardField.setVisibility(View.GONE);
                 vineyardLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.VARIETY);
 
-            if (columnIndex != -1)
-            {
+            if (columnIndex != -1) {
                 varietyField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 varietyField.setVisibility(View.GONE);
                 varietyLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.REGION);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex).equals("")))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex).equals(""))) {
                 regionField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 regionField.setVisibility(View.GONE);
                 regionLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.VINTAGE);
 
-            if (columnIndex != -1)
-            {
+            if (columnIndex != -1) {
                 vintageField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 vintageField.setVisibility(View.GONE);
                 vintageLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.RATING);
 
-            if ((columnIndex != -1) && (cursor.getFloat(columnIndex) != 0))
-            {
+            if ((columnIndex != -1) && (cursor.getFloat(columnIndex) != 0)) {
                 ratingField.setRating(cursor.getFloat(columnIndex));
-            }
-            else
-            {
+            } else {
                 ratingField.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.IMAGE);
 
-            if ((columnIndex != -1) && !(cursor.getBlob(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getBlob(columnIndex) == null)) {
                 byte[] imageBytes = cursor.getBlob(columnIndex);
                 Bitmap image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 bottleImage.setImageBitmap(image);
-            }
-            else
-            {
+            } else {
                 bottleImage.setVisibility(View.GONE);
                 bottleImageLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.BOX_NO);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 boxNoField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 boxNoField.setVisibility(View.GONE);
                 boxNoLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.NO_BOTTLES);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 noOfBottlesField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 noOfBottlesField.setVisibility(View.GONE);
                 noOfBottlesLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.TASTED);
 
-            if (columnIndex != -1)
-            {
+            if (columnIndex != -1) {
                 if (cursor.getInt(columnIndex) == 1)
                     tastedField.setText(R.string.yes);
                 else
                     tastedField.setText(R.string.no);
-            }
-            else
-            {
+            } else {
                 tastedField.setVisibility(View.GONE);
                 tastedLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.YEAR_BOUGHT);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 yearBoughtField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 yearBoughtField.setVisibility(View.GONE);
                 yearBoughtLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.DRINK_FROM);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 drinkFromField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 drinkFromField.setVisibility(View.GONE);
                 drinkFromLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.DRINK_TO);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 drinkToField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 drinkToField.setVisibility(View.GONE);
                 drinkToLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.PRICE_PAID);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 pricePaidField.setText("$" + cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 pricePaidField.setVisibility(View.GONE);
                 pricePaidLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.PERCENT_ALCOHOL);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 percentAlcoholField.setText(cursor.getString(columnIndex) + "%");
-            }
-            else
-            {
+            } else {
                 percentAlcoholField.setVisibility(View.GONE);
                 percentAlcoholLabel.setVisibility(View.GONE);
             }
 
             columnIndex = cursor.getColumnIndex(DBHelper.NOTES);
 
-            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null))
-            {
+            if ((columnIndex != -1) && !(cursor.getString(columnIndex) == null)) {
                 notesField.setText(cursor.getString(columnIndex));
-            }
-            else
-            {
+            } else {
                 notesField.setVisibility(View.GONE);
                 notesLabel.setVisibility(View.GONE);
             }
@@ -330,32 +277,27 @@ public class DetailsFragment extends Fragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_details, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_delete:
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.delete_wine)
                         .setPositiveButton(R.string.ok,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int whichButton)
-                                    {
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
                                         processDelete();
                                     }
                                 })
                         .setNegativeButton(R.string.cancel,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int whichButton) {}
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
                                 }).show();
                 return true;
             case R.id.action_back:
@@ -369,9 +311,8 @@ public class DetailsFragment extends Fragment
         return super.onOptionsItemSelected(item);
     }
 
-    private void processDelete()
-    {
-        String[] args = { String.valueOf(id) };
+    private void processDelete() {
+        String[] args = {String.valueOf(id)};
 
         DBHelper db = DBHelper.getInstance(getActivity());
         db.getWritableDatabase().delete(DBHelper.WINE_TBL, "_ID=?", args);
